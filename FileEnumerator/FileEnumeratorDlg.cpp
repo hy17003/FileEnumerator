@@ -256,9 +256,22 @@ void CFileEnumeratorDlg::OnBnClickedBtnGenerate()
 	if (IsDirectoryExists(m_strPath))
 	{
 		filelist.clear();
-		folderIdx = 0;
+		folderIdx = -1;
 		RecursiveFindFile(m_strPath);
-		CString strFileName = m_strPath + _T("\\filelist.txt");
+		CString strFileName;
+		GetDlgItemText(IDC_EDIT_FILENAME, strFileName);
+		if (strFileName == _T(""))
+		{
+			strFileName = _T("filelist.txt");
+		}
+		else
+		{
+			if (strFileName.Right(4) != _T(".txt"))
+			{
+				strFileName = strFileName + _T(".txt");
+			}
+		}
+		strFileName = m_strPath + _T("\\") +  strFileName;
 		try
 		{
 			CStdioFile file;
